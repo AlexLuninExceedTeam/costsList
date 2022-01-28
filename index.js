@@ -82,4 +82,3 @@ deleteAllCosts = async () => {
         })
 }
 
-
