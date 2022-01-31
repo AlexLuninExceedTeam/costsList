@@ -31,11 +31,11 @@ createNewCost = async (cost) => {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
         body: JSON.stringify(cost),
-    }). then ()
+    }).then()
         .catch((error) => {
             console.log(error)
         })
-    render()
+    await render()
 }
 
 deleteCost = async (cost) => {
@@ -71,14 +71,14 @@ changeCost = async (cost) => {
 }
 
 deleteAllCosts = async () => {
-    fetch('http://localhost:8000/deleteallcosts', {
+    await fetch('http://localhost:8000/deleteallcosts', {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
     })
-        .then(console.log('all costs deleted'))
         .catch((error) => {
             console.log(error)
         })
+    await render()
 }
 
 window.onload = async function init() {
@@ -109,13 +109,19 @@ addCost = async () => {
 
 render = async () => {
     await getAllCosts();
-
+    let allCosts = document.getElementById('allCosts')
+    while (allCosts.firstChild) {
+        allCosts.removeChild(allCosts.firstChild)
+    }
     costs.map(item => {
-        let allCosts = document.getElementById('allCosts')
         let costContainer = document.createElement('div')
         let costLocation = document.createElement('span')
         let costDate = document.createElement('span')
         let costPrice = document.createElement('span')
+        let deleteCostButton = document.createElement('button')
+        deleteCostButton.innerText = 'delete cost'
+        let editCostButton = document.createElement('button')
+        editCostButton.innerText = 'edit cost'
 
         costLocation.innerText = item.location
         costDate.innerText = item.date
@@ -123,6 +129,8 @@ render = async () => {
         costContainer.appendChild(costLocation)
         costContainer.appendChild(costDate)
         costContainer.appendChild(costPrice)
+        costContainer.appendChild(deleteCostButton)
+        costContainer.appendChild(editCostButton)
         allCosts.appendChild(costContainer)
     })
 }
