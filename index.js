@@ -10,7 +10,6 @@ let cost = {
     id: 0,
 }
 
-
 getAllCosts = async () => {
     await fetch('http://localhost:8000/getallcosts')
         .then((response) => {
@@ -126,6 +125,4 @@ render = async () => {
         costContainer.appendChild(costPrice)
         allCosts.appendChild(costContainer)
     })
-
 }
-
