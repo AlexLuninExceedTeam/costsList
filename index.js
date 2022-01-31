@@ -1,3 +1,6 @@
+let inputCostLocation = null;
+let inputCostDate = null;
+let inputCostPrice = null;
 let costs = [];
 let cost = {
     location: '',
@@ -6,12 +9,15 @@ let cost = {
     isEditing: false,
     id: 0,
 }
+
+
 getAllCosts = async () => {
-    fetch('http://localhost:8000/getallcosts')
+    await fetch('http://localhost:8000/getallcosts')
         .then((response) => {
             return response.json();
         })
         .then((data) => {
+            costs = [];
             data.forEach(item => {
                 costs.push(item)
             })
@@ -19,24 +25,18 @@ getAllCosts = async () => {
         .catch((error) => {
             console.log(error)
         })
-    console.log(costs)
 }
 
 createNewCost = async (cost) => {
-    cost.location = 'location'
-    cost.date = 'date'
-    cost.price = 200
-    cost.id = 5
-
-    fetch('http://localhost:8000/createnewcost', {
+    await fetch('http://localhost:8000/createnewcost', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
         body: JSON.stringify(cost),
-    })
-        .then(console.log(cost))
+    }). then ()
         .catch((error) => {
             console.log(error)
         })
+    render()
 }
 
 deleteCost = async (cost) => {
@@ -80,5 +80,52 @@ deleteAllCosts = async () => {
         .catch((error) => {
             console.log(error)
         })
+}
+
+window.onload = async function init() {
+    inputCostLocation = document.getElementById('location')
+    inputCostLocation.addEventListener('change', changeCostLocation); //watch CostLocationInput
+    inputCostDate = document.getElementById('date')
+    inputCostDate.addEventListener('change', changeCostDate); //watch CostDateInput
+    inputCostPrice = document.getElementById('price')
+    inputCostPrice.addEventListener('change', changeCostPrice); //watch CostPriceInput
+    await render()
+}
+
+changeCostLocation = (event) => {
+    cost.location = event.target.value
+}
+
+changeCostDate = (event) => {
+    cost.date = event.target.value;
+}
+
+changeCostPrice = (event) => {
+    cost.price = +event.target.value
+}
+
+addCost = async () => {
+    await createNewCost(cost)
+}
+
+render = async () => {
+    await getAllCosts();
+
+    costs.map(item => {
+        let allCosts = document.getElementById('allCosts')
+        let costContainer = document.createElement('div')
+        let costLocation = document.createElement('span')
+        let costDate = document.createElement('span')
+        let costPrice = document.createElement('span')
+
+        costLocation.innerText = item.location
+        costDate.innerText = item.date
+        costPrice.innerText = item.price
+        costContainer.appendChild(costLocation)
+        costContainer.appendChild(costDate)
+        costContainer.appendChild(costPrice)
+        allCosts.appendChild(costContainer)
+    })
+
 }
 
