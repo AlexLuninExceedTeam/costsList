@@ -9,7 +9,6 @@ let cost = {
     isEditing: false,
     id: 0,
 }
-
 getAllCosts = async () => {
     await fetch('http://localhost:8000/getallcosts')
         .then((response) => {
@@ -27,11 +26,12 @@ getAllCosts = async () => {
 }
 
 createNewCost = async (cost) => {
+    cost.id++
     await fetch('http://localhost:8000/createnewcost', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
         body: JSON.stringify(cost),
-    }).then()
+    })
         .catch((error) => {
             console.log(error)
         })
@@ -39,17 +39,15 @@ createNewCost = async (cost) => {
 }
 
 deleteCost = async (cost) => {
-    cost.id = 5
-
     fetch('http://localhost:8000/deletecost', {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
         body: JSON.stringify(cost),
     })
-        .then(console.log(cost))
         .catch((error) => {
             console.log(error)
         })
+    await render()
 }
 
 changeCost = async (cost) => {
@@ -105,6 +103,17 @@ changeCostPrice = (event) => {
 
 addCost = async () => {
     await createNewCost(cost)
+    inputCostLocation.value = ''
+    inputCostDate.value = ''
+    inputCostPrice.value = ''
+    cost.location = ''
+    cost.price = ''
+    cost.date = ''
+}
+
+deleteOneCost = async (item) => {
+    await deleteCost(item);
+    await render()
 }
 
 render = async () => {
@@ -120,6 +129,7 @@ render = async () => {
         let costPrice = document.createElement('span')
         let deleteCostButton = document.createElement('button')
         deleteCostButton.innerText = 'delete cost'
+        deleteCostButton.onclick = () => deleteOneCost(item)
         let editCostButton = document.createElement('button')
         editCostButton.innerText = 'edit cost'
 
