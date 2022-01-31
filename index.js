@@ -1,6 +1,9 @@
 let inputCostLocation = null;
 let inputCostDate = null;
 let inputCostPrice = null;
+let inputEditLocation = document.createElement('input')
+let inputEditDate = document.createElement('input')
+let inputEditPrice = document.createElement('input')
 let costs = [];
 let cost = {
     location: '',
@@ -9,6 +12,8 @@ let cost = {
     isEditing: false,
     id: 0,
 }
+let costID = null;
+
 getAllCosts = async () => {
     await fetch('http://localhost:8000/getallcosts')
         .then((response) => {
@@ -26,7 +31,8 @@ getAllCosts = async () => {
 }
 
 createNewCost = async (cost) => {
-    cost.id++
+    costID++
+    cost.id = costID
     await fetch('http://localhost:8000/createnewcost', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
@@ -51,21 +57,16 @@ deleteCost = async (cost) => {
 }
 
 changeCost = async (cost) => {
-    cost.location = '123456789',
-        cost.date = '',
-        cost.price = '',
-        cost.isEditing = false,
-        cost.id = 5
 
     fetch('http://localhost:8000/changecostinfo', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', "Accept": "application/json"},
         body: JSON.stringify(cost),
     })
-        .then(console.log(cost))
         .catch((error) => {
             console.log(error)
         })
+    await render();
 }
 
 deleteAllCosts = async () => {
@@ -116,6 +117,33 @@ deleteOneCost = async (item) => {
     await render()
 }
 
+summPrices = () => {
+    let summ = 0;
+    costs.forEach(item => summ += item.price)
+    return summ
+}
+
+editCost = async (cost) => {
+    cost.isEditing = true
+    await changeCost(cost)
+    await render()
+}
+
+cancelChanges = async (cost) => {
+    cost.isEditing = false
+    await changeCost(cost)
+    await render()
+}
+
+saveChanges = async (cost) => {
+    cost.location = inputEditLocation.value
+    cost.date = inputEditDate.value
+    cost.price = inputEditPrice.value
+    cost.isEditing = false
+    await changeCost(cost)
+    await render()
+}
+
 render = async () => {
     await getAllCosts();
     let allCosts = document.getElementById('allCosts')
@@ -132,6 +160,31 @@ render = async () => {
         deleteCostButton.onclick = () => deleteOneCost(item)
         let editCostButton = document.createElement('button')
         editCostButton.innerText = 'edit cost'
+        editCostButton.onclick = () => editCost(item)
+
+        if (item.isEditing === true) {
+            inputEditLocation.type = "text"
+            inputEditLocation.value = item.location
+            inputEditDate.type = "date"
+            inputEditDate.value = item.date;
+            inputEditPrice.type = "Number"
+            inputEditPrice.value = item.price
+            let editArea = document.createElement('div')
+            let saveChangesButton = document.createElement('button')
+            saveChangesButton.innerText = 'save changes'
+            saveChangesButton.onclick = () => saveChanges(item)
+            let cancelChangesButton = document.createElement('button')
+            cancelChangesButton.innerText = 'cancel changes'
+            cancelChangesButton.onclick = () => cancelChanges(item)
+
+            editArea.appendChild(inputEditLocation)
+            editArea.appendChild(inputEditDate)
+            editArea.appendChild(inputEditPrice)
+            editArea.appendChild(saveChangesButton)
+            editArea.appendChild(cancelChangesButton)
+            costContainer.appendChild(editArea)
+        }
+
 
         costLocation.innerText = item.location
         costDate.innerText = item.date
@@ -142,5 +195,7 @@ render = async () => {
         costContainer.appendChild(deleteCostButton)
         costContainer.appendChild(editCostButton)
         allCosts.appendChild(costContainer)
+        costID = item.id
     })
+    summPrices()
 }
