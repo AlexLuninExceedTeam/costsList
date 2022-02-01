@@ -18,10 +18,10 @@ body {
     font-size: 1.3rem;
 
 }
-#summAllCostsPrices::before{
+#sumAllCostsPrices::before{
     content: 'Итого: ';
 }
-#summAllCostsPrices::after{
+#sumAllCostsPrices::after{
     content: ' р.';
 }
 
@@ -111,6 +111,9 @@ body {
 }
 .costContainer .costPrice{
     min-width: 13vw;
+}
+.costContainer .costPrice::after{
+    content: ' р.';
 }
 .costContainer .costLocation::after {
     content: '" ';

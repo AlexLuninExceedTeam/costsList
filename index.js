@@ -22,44 +22,42 @@ createEditArea = (item) => {
 }
 
 getAllCosts = async () => {
-    await fetch('http://localhost:8000/getallcosts')
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            costs = [];
-            data.forEach(item => {
-                costs.push(item)
-            })
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+    try {
+        let response = await fetch('http://localhost:8000/getallcosts')
+        if (response.status === 200) {
+            let json = await response.json()
+            costs = [...json]
+        }
+    } catch {
+        (error) => console.log( error)
+    }
 }
 
 createNewCost = async (cost) => {
     costID++
     cost.id = costID
-    await fetch('http://localhost:8000/createnewcost', {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json', "Accept": "application/json"},
-        body: JSON.stringify(cost),
-    })
-        .catch((error) => {
-            console.log(error)
+    try {
+        await fetch('http://localhost:8000/createnewcost', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json', "Accept": "application/json"},
+            body: JSON.stringify(cost),
         })
+    } catch {
+        (error) => console.log(error)
+    }
     await render()
 }
 
 deleteCost = async (cost) => {
-    fetch('http://localhost:8000/deletecost', {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json', "Accept": "application/json"},
-        body: JSON.stringify(cost),
-    })
-        .catch((error) => {
-            console.log(error)
+    try {
+        await fetch('http://localhost:8000/deletecost', {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Accept": "application/json"},
+            body: JSON.stringify(cost),
         })
+    } catch {
+        (error) => console.log(error)
+    }
     await render()
 }
 
@@ -73,14 +71,15 @@ setDate = () => {
 }
 
 changeCost = async (cost) => {
-    fetch('http://localhost:8000/changecostinfo', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', "Accept": "application/json"},
-        body: JSON.stringify(cost),
-    })
-        .catch((error) => {
-            console.log(error)
+    try {
+        await fetch('http://localhost:8000/changecostinfo', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', "Accept": "application/json"},
+            body: JSON.stringify(cost),
         })
+    } catch {
+        (error) => console.log(error)
+    }
     await render();
 }
 
@@ -121,16 +120,16 @@ deleteOneCost = async (item) => {
     await render()
 }
 
-summPrices = () => {
-    let summ = 0;
-    costs.forEach(item => summ += item.price)
-    return summ
+sumPrices = () => {
+    let sum = 0;
+    costs.forEach(item => sum += item.price)
+    return sum
 }
 
 renderAllCostsPrices = () => {
-    let allCostsPrices = summPrices()
-    let summAllCostsPrices = document.getElementById('summAllCostsPrices')
-    summAllCostsPrices.innerText = allCostsPrices
+    let allCostsPrices = sumPrices()
+    let sumAllCostsPrices = document.getElementById('sumAllCostsPrices')
+    sumAllCostsPrices.innerText = allCostsPrices
 }
 
 editCost = async (cost) => {
@@ -179,6 +178,7 @@ render = async () => {
     renderAllCostsPrices()
 
     let allCosts = document.getElementById('allCosts')
+
     while (allCosts.firstChild) {
         allCosts.removeChild(allCosts.firstChild)
     }
