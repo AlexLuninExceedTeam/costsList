@@ -1,5 +1,209 @@
-span {
-    background: wheat;
-    color: black;
+body {
+    margin: 0;
+    padding: 0;
+    background: rgb(101,117,128);
+    opacity: 0.9;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+.tittle {
+    width: 100%;
+    text-align: center;
+}
+.result {
+    width: 80%;
+    text-align: right;
+    margin-right: 20%;
+    font-size: 1.3rem;
+
+}
+#sumAllCostsPrices::before{
+    content: 'Итого: ';
+}
+#sumAllCostsPrices::after{
+    content: ' р.';
+}
+
+#mainArea {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: left;
+    line-height: 50px;
+    font-size: 1rem;
+    margin-left: 20%;
+    max-width: 60vw;
+}
+#mainArea div {
+    display: flex;
+    flex-direction: column;
     margin: 10px;
+}
+#mainArea div:first-child{
+    margin-left: 0;
+}
+#mainArea input[type=text] {
+    width: 30vw;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    min-width: 200px;
+}
+#mainArea input[type=number] {
+    width: 20vw;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    min-width: 150px;
+}
+#mainArea button {
+    background: rgb(75,133,105);
+    border: 0;
+    border-radius: 5px;
+    width: 10vw;
+    height: 50px;
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-top: 50px;
+    min-width: 200px;
+}
+#mainArea button:hover {
+    border: grey solid 1px;
+    border-radius: 5px;
+    box-shadow: 1px 1px grey;
+}
+
+#allCosts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    width: 100%;
+    line-height: 50px;
+    margin-left: 20%;
+    font-size: 1rem;
+    max-width: 60vw;
+}
+.costContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    height: 100px;
+    font-size: 1.7rem;
+    width: 100vw;
+}
+.costContainer span {
+    margin-left: 10%;
+}
+.costContainer span:first-child{
+    margin-left: 0;
+}
+.costLocation:first-letter{
+    text-transform: uppercase;
+}
+.costContainer .costLocation{
+    width: 31vw;
+}
+.costContainer .costDate{
+    min-width: 15vw;
+}
+.costContainer .costPrice{
+    min-width: 13vw;
+}
+.costContainer .costPrice::after{
+    content: ' р.';
+}
+.costContainer .costLocation::after {
+    content: '" ';
+}
+.costContainer .costLocation::before{
+    content: 'Магазин "';
+}
+.costContainer button {
+    height: 50px;
+    background: rgb(101,117,128);
+    border: none;
+}
+.costContainer button:hover{
+    outline: grey 1px solid;
+}
+
+.editArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    height: 100px;
+    font-size: 1.7rem;
+    width: 100vw;
+}
+.editArea span {
+    margin-left: 4.7vw;
+}
+.editArea input[type=text] {
+    width: 20vw;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 0;
+}
+.editArea input[type=number] {
+    width: 7vw;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 6%;
+}
+.deleteCostButton {
+    background: url("assets/delete-button.png") no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+.deleteCostButton:hover{
+    outline: grey solid 3px;
+    background-color: darkred;
+}
+.editCostButton {
+    background: url("assets/edit-button.png") no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin-left: 6vw;
+    margin-right: 1vw;
+}
+.editCostButton:hover{
+    outline: grey solid 3px;
+    background-color: #c5ba1f;
+}
+.saveChangesButton {
+    background: url("assets/save-button.png") no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin-left: 12vw;
+    margin-right: 1vw;
+}
+.saveChangesButton:hover{
+    outline: grey solid 3px;
+    background-color: green;
+    border: none;
+    border-bottom-left-radius: 10px;
+}
+.cancelChangesButton {
+    background: url("assets/cancel-button.png") no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+.cancelChangesButton:hover{
+    outline: grey solid 3px;
+    background-color: darkred;
+    border: none;
+    border-radius: 50%;
 }

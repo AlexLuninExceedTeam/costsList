@@ -10,12 +10,23 @@
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
+<div class="tittle"><h1>Учет моих расходов</h1></div>
+<div id="mainArea">
+    <div>
+        Куда было потрачено:
+        <input type="text" maxlength="20" placeholder="куда было потрачено" id="location">
+    </div>
+    <div>
+        Сколько было потрачено:
+        <input type="number" placeholder="сколько было потрачено" id="price">
+    </div>
+    <div>
+        <button onclick="addCost()">Добавить</button>
+        <div class="result">    <span id="sumAllCostsPrices">Итого: </span>
 
-<input type="text" placeholder="куда было потрачено" id="location">
-<input type="text" placeholder="когда было потрачено" id="date">
-<input type="text" placeholder="сколько было потрачено" id="price">
-<button onclick="addCost()">добавить</button>
-
+        </div>
+</div>
+</div>
 <div id="allCosts"></div>
 
 </body>
